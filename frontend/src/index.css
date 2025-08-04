@@ -1,1 +1,35 @@
+/* In your global CSS file, e.g., index.css */
 @import "tailwindcss";
+
+/* Base styles for the light theme (when 'dark' class is NOT present) */
+html {
+  background-color: #F8F9FA; /* A very light gray background for light mode */
+  color: #333333; /* Dark text for light mode */
+}
+
+/* Specific styles for the dark theme (when 'dark' class IS present) */
+html.dark {
+  background-color: #1A202C; /* gray-background */
+  color: #E0E0E0; /* text-primary */
+}
+
+/* Custom scrollbar styling (keep this, it uses hex codes which are theme-agnostic unless you want to dynamically change them) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #34495e; /* Close to deep-ocean-blue */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4ECDC4; /* soft-teal */
+  border-radius: 10px;
+  border: 2px solid #2C3E50; /* deep-ocean-blue */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3aa8a0; /* darker soft-teal */
+}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useAuthStore } from '../store/useAuthStore';
-import { Camera, Mail, User } from 'lucide-react';
+import React, { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import { Camera, Mail, User, Loader2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 function Profile() {
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
@@ -9,6 +10,11 @@ function Profile() {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file.");
+      return;
+    }
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -20,29 +26,41 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-screen pt-24 bg-base-100">
-      <div className="max-w-2xl px-4 mx-auto">
-        <div className="p-6 shadow-lg card bg-base-200">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-base-content">Profile</h1>
-            <p className="mt-1 text-base-content/70">Your profile information</p>
+    <div className="flex items-center justify-center min-h-screen px-4 pt-24 pb-12 bg-gray-background">
+      <div className="w-full max-w-2xl">
+        <div className="p-8 border shadow-2xl rounded-2xl bg-component-bg border-soft-teal/30 animate-fade-in">
+          <div className="mb-8 text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight text-text-primary">
+              Your Profile
+            </h1>
+            <p className="mt-2 text-lg text-text-muted">
+              Manage your personal information
+            </p>
           </div>
 
           {/* Avatar Upload */}
-          <div className="flex flex-col items-center gap-3 my-6">
+          <div className="flex flex-col items-center gap-4 my-8">
             <div className="relative">
               <img
                 src={selectedImage || authUser.profilePic || "/avatar.png"}
                 alt="profile"
-                className="object-cover w-32 h-32 border-4 rounded-full border-base-content"
+                className="object-cover border-4 rounded-full shadow-lg w-36 h-36 border-soft-teal"
               />
               <label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-0 right-0 bg-base-content text-base-100 p-2 rounded-full cursor-pointer transition duration-200 hover:scale-105 ${
-                  isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
-                }`}
+                className={`absolute bottom-0 right-0 bg-soft-teal text-deep-ocean-blue p-3 rounded-full cursor-pointer transition duration-300 hover:scale-110 shadow-md flex items-center justify-center
+                  ${
+                    isUpdatingProfile
+                      ? "animate-pulse opacity-70 cursor-not-allowed"
+                      : ""
+                  }`}
+                aria-label="Upload new profile picture"
               >
-                <Camera className="w-4 h-4" />
+                {isUpdatingProfile ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Camera className="w-5 h-5" />
+                )}
                 <input
                   type="file"
                   id="avatar-upload"
@@ -53,34 +71,36 @@ function Profile() {
                 />
               </label>
             </div>
-            <p className="text-sm text-base-content/60">
-              {isUpdatingProfile ? "Updating..." : "Click the icon to upload"}
+            <p className="text-sm text-text-muted">
+              {isUpdatingProfile
+                ? "Updating new avatar..."
+                : "Click the camera icon to update your profile picture"}
             </p>
           </div>
 
           {/* Profile Info */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <label className="text-sm label text-base-content/60">
-                <User className="w-4 h-4 mr-1" />
+              <label className="flex items-center mb-2 text-sm font-medium text-text-secondary">
+                <User className="w-4 h-4 mr-2 text-soft-teal" />
                 Full Name
               </label>
               <input
                 type="text"
-                className="w-full input input-bordered bg-base-100"
+                className="w-full p-3 border rounded-lg cursor-not-allowed bg-input-bg border-border-color text-text-primary focus:outline-none focus:ring-2 focus:ring-soft-teal"
                 value={authUser?.fullName}
                 disabled
               />
             </div>
 
             <div>
-              <label className="text-sm label text-base-content/60">
-                <Mail className="w-4 h-4 mr-1" />
+              <label className="flex items-center mb-2 text-sm font-medium text-text-secondary">
+                <Mail className="w-4 h-4 mr-2 text-soft-teal" />
                 Email
               </label>
               <input
                 type="email"
-                className="w-full input input-bordered bg-base-100"
+                className="w-full p-3 border rounded-lg cursor-not-allowed bg-input-bg border-border-color text-text-primary focus:outline-none focus:ring-2 focus:ring-soft-teal"
                 value={authUser?.email}
                 disabled
               />
@@ -88,16 +108,20 @@ function Profile() {
           </div>
 
           {/* Account Info */}
-          <div className="mt-6">
-            <h2 className="mb-2 text-lg font-semibold text-base-content">Account Information</h2>
-            <div className="text-sm divide-y divide-base-300">
-              <div className="flex justify-between py-2">
-                <span className="text-base-content/80">Member Since</span>
-                <span className="text-base-content/70">{authUser.createdAt?.split("T")[0]}</span>
+          <div className="pt-6 mt-8 border-t border-border-color">
+            <h2 className="mb-4 text-xl font-semibold text-text-primary">
+              Account Information
+            </h2>
+            <div className="text-sm divide-y divide-border-color">
+              <div className="flex justify-between py-3">
+                <span className="text-text-muted">Member Since</span>
+                <span className="font-medium text-muted-gold">
+                  {authUser.createdAt?.split("T")[0]}
+                </span>
               </div>
-              <div className="flex justify-between py-2">
-                <span className="text-base-content/80">Account Status</span>
-                <span className="text-success">Active</span>
+              <div className="flex justify-between py-3">
+                <span className="text-text-muted">Account Status</span>
+                <span className="font-medium text-green-400">Active</span>
               </div>
             </div>
           </div>

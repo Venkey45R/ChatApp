@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import SideBarSkeleton from "./skeleton/SideBarSkeleton";
-import { ChevronsUp, Users } from "lucide-react";
+import { Users } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 
 function SideBar() {
   const { selectedUser, setSelectedUser } = useChatStore();
   const { onlineUsers } = useAuthStore();
+  const [showOnlineOnly, setShowOnlineOnly] = useState(false);
   const users = useChatStore((state) => state.users);
   const getUsers = useChatStore((state) => state.getUsers);
   const isUsersLoading = useChatStore((state) => state.isUsersLoading);
@@ -15,48 +16,77 @@ function SideBar() {
     getUsers();
   }, [getUsers]);
 
+  const filteredUsers = showOnlineOnly
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
+
   if (isUsersLoading) {
     return <SideBarSkeleton />;
   }
 
   return (
-    <aside className="flex flex-col w-20 h-full transition-all duration-200 border-r lg:w-72 border-base-300">
-      <div className="w-full p-5 border-b border-base-300">
-        <div className="flex items-center gap-2 ">
-          <Users className="size-6" />
-          <span className="hidden font-medium lg:block">Contacts</span>
-        </div>
-        {/* online filter toggle */}
+    <aside className="flex flex-col w-20 h-full transition-all duration-300 ease-in-out border-r rounded-l-lg shadow-lg lg:w-72 bg-card-bg border-soft-teal/30">
+      <div className="flex items-center w-full gap-3 p-5 border-b border-soft-teal/30">
+        <Users className="flex-shrink-0 size-6 text-soft-teal" />
+        <span className="hidden text-lg font-semibold text-text-primary lg:block">
+          Contacts
+        </span>
       </div>
-      <div className="w-full py-3 overflow-y-auto">
-        {users.map((user) => (
+      <div className="flex items-center gap-3 px-5 py-2 border-b border-soft-teal/30">
+        <label className="flex items-center gap-2 text-sm font-medium cursor-pointer text-text-primary">
+          <input
+            type="checkbox"
+            checked={showOnlineOnly}
+            onChange={(e) => setShowOnlineOnly(e.target.checked)}
+            className="transition-all duration-200 border-2 border-gray-400 rounded-full appearance-none cursor-pointer size-3 checked:bg-gray-700 checked:border-transparent dark:border-gray-600 dark:checked:bg-gray-600"
+          />
+          <span>Show Online users only</span>
+        </label>
+        <span className="text-xs text-zinc-500">
+          ({onlineUsers.length - 1} online)
+        </span>
+      </div>
+      <div className="flex-1 w-full py-3 overflow-y-auto custom-scrollbar">
+        {filteredUsers.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
-            className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors ${
-              selectedUser?._id === user._id
-                ? "bg-base-300 ring-1 ring-base-300"
-                : ""
-            }`}
+            className={`w-full p-3 flex items-center gap-3 transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-soft-teal 
+              ${
+                selectedUser?._id === user._id
+                  ? "bg-soft-teal/20 text-soft-teal border-l-4 border-soft-teal shadow-inner"
+                  : "hover:bg-gray-700 text-text-primary"
+              }`}
           >
-            <div className="relative mx-auto lg:mx-0">
+            <div className="relative flex-shrink-0 mx-auto lg:mx-0">
               <img
                 src={user.profilePic || "/avatar.png"}
                 alt={user.fullName}
-                className="object-cover rounded-full size-12"
+                className="object-cover border-2 rounded-full shadow-sm size-12 border-border-color"
               />
               {onlineUsers.includes(user._id) && (
-                <span className="absolute bottom-0 right-0 bg-green-500 rounded-full size-3 ring-2 ring-zinc-900"></span>
+                <span className="absolute bottom-0 right-0 bg-green-500 rounded-full size-3 ring-2 ring-card-bg animate-pulse"></span>
               )}
             </div>
             <div className="hidden min-w-0 text-left lg:block">
-              <div className="font-medium truncate">{user.fullName}</div>
-              <div className="text-sm text-zinc-400">
+              <div className="text-base font-medium truncate text-text-primary">
+                {user.fullName}
+              </div>
+              <div
+                className={`text-sm ${
+                  onlineUsers.includes(user._id)
+                    ? "text-green-400"
+                    : "text-text-muted"
+                }`}
+              >
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
             </div>
           </button>
         ))}
+        {filteredUsers.length === 0 && (
+          <div className="py-4 text-center text-zinc-500">No Online Users</div>
+        )}
       </div>
     </aside>
   );

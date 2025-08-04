@@ -1,0 +1,88 @@
+SOCKET IO DOCUMENTATION:
+
+Importing the Socket.io Server
+    import { Server } from "socket.io";
+
+Creating an Express Server and Attaching Socket.io
+
+    import express from 'express';
+
+    const app = express();
+    const server = app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+    });
+
+    const io = new Server(server, {
+    cors: {
+        origin: ["http://localhost:5173"], // specify allowed origins
+    },
+    });
+
+Core Socket.io Methods and Usage:
+    1. Handling Client Connections
+        io.on("connection", callback) - Triggered when a new client connects. callback receives a socket object representing the client.
+        e.g,
+        io.on("connection", (socket) => {
+            console.log("A user connected", socket.id);
+        });
+    
+    2. Emitting Events
+        1. io.emit(eventName, data) - Broadcasts an event to all connected clients.
+        e.g, io.emit("eventName", data);
+        
+        2. socket.emit(eventName, data) - Sends an event to the specific connected client.
+        e.g, socket.emit("eventName", data);
+
+        3. io.to(socketId).emit(eventName, data) - Sends an event to a specific client identified by socketId.
+        e.g, io.to(receiverSocketId).emit("privateMessage", data);
+    
+    3. Listening for Client Events
+        socket.on(eventName, callback) - Listens for a specific event from a client
+        e.g, socket.on("newMessage", (message) => {});
+
+    4. Handling disconnection
+        socket.on("disconnect", callback) - Triggered when a client disconnects.
+        e.g, socket.on("disconnect", () => {
+            console.log("User disconnected", socket.id);
+        });
+    
+    5. Managing socket connection
+        socket.connect() - Programmatically establishes a connection for a client (typically on the client side).
+        socket.disconnect() - Disconnects a client manually from the server side.
+    
+    6. Subscribing and Unsubscribing from Events
+        socket.on(eventName, callback) - To subscribe to an event.
+        socket.off(eventName, callback) - To unsubscribe from an event.
+        e.g, socket.off("newMessage");
+
+Additional Notes:
+    Handling User Authentication and Connection
+        You can trigger socket.connect() upon successful authentication.
+        Store socket.id upon login to target specific users.
+    State Management
+        Use application state or database to keep track of connected users, their socket IDs, and other relevant info.
+
+Sample skeleton:
+
+import express from 'express';
+import { Server } from 'socket.io';
+
+const app = express();
+const server = app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+const io = new Server(server, {
+  cors: { origin: ["http://localhost:5173"] },
+});
+
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  socket.on("newMessage", (msg) => {
+    // Broadcast to all clients
+    io.emit("newMessage", msg);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
