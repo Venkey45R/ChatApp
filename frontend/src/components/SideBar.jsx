@@ -32,17 +32,19 @@ function SideBar() {
           Contacts
         </span>
       </div>
-      <div className="flex items-center gap-3 px-5 py-2 border-b border-soft-teal/30">
-        <label className="flex items-center gap-2 text-sm font-medium cursor-pointer text-text-primary">
+      <div className="flex flex-col items-center gap-3 px-1 py-2 border-b lg:px-5 lg:flex-row lg:items-center border-soft-teal/30">
+        {/* Checkbox label */}
+        <label className="flex items-center w-full gap-2 text-xs font-normal cursor-pointer lg:text-sm lg:font-medium text-text-primary lg:w-auto">
           <input
             type="checkbox"
             checked={showOnlineOnly}
             onChange={(e) => setShowOnlineOnly(e.target.checked)}
-            className="transition-all duration-200 border-2 border-gray-400 rounded-full appearance-none cursor-pointer size-3 checked:bg-gray-700 checked:border-transparent dark:border-gray-600 dark:checked:bg-gray-600"
+            className="transition-all duration-200 border-2 border-gray-400 rounded-none appearance-none cursor-pointer lg:rounded-full size-5 lg:size-3 checked:bg-gray-700 checked:border-transparent dark:border-gray-600 dark:checked:bg-gray-600"
           />
-          <span>Show Online users only</span>
+          <p>Show Online users only</p>
         </label>
-        <span className="text-xs text-zinc-500">
+        {/* Online users count */}
+        <span className="mt-0 text-xs text-zinc-500">
           ({onlineUsers.length - 1} online)
         </span>
       </div>
@@ -55,12 +57,12 @@ function SideBar() {
               ${
                 selectedUser?._id === user._id
                   ? "bg-soft-teal/20 text-soft-teal border-l-4 border-soft-teal shadow-inner"
-                  : "hover:bg-gray-700 text-text-primary"
+                  : "hover:bg-white/20 text-text-primary"
               }`}
           >
             <div className="relative flex-shrink-0 mx-auto lg:mx-0">
               <img
-                src={user.profilePic || "/avatar.png"}
+                src={user.profilePic || "/avatar.webp"}
                 alt={user.fullName}
                 className="object-cover border-2 rounded-full shadow-sm size-12 border-border-color"
               />

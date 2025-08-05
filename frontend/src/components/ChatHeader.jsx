@@ -18,7 +18,7 @@ function ChatHeader() {
         <div className="flex items-center gap-3">
           <div className="relative flex-shrink-0 rounded-full size-10">
             <img
-              src={selectedUser?.profilePic || "/avatar.png"}
+              src={selectedUser?.profilePic || "/avatar.webp"}
               alt={selectedUser?.fullName}
               className={`object-cover rounded-full w-full h-full border-2 ${
                 isOnline ? "border-soft-teal" : "border-border-color"

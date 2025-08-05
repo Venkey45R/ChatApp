@@ -3,33 +3,37 @@
 
 /* Base styles for the light theme (when 'dark' class is NOT present) */
 html {
-  background-color: #F8F9FA; /* A very light gray background for light mode */
-  color: #333333; /* Dark text for light mode */
+  background-color: #f0f0f0; /* sharper, more premium light gray background */
+  color: #222222; /* darker text for better contrast in light mode */
 }
 
 /* Specific styles for the dark theme (when 'dark' class IS present) */
 html.dark {
-  background-color: #1A202C; /* gray-background */
-  color: #E0E0E0; /* text-primary */
+  background-color: #0d0d0d; /* sharper dark background for dark mode */
+  color: #ffffff; /* white text for high contrast */
 }
 
-/* Custom scrollbar styling (keep this, it uses hex codes which are theme-agnostic unless you want to dynamically change them) */
+.custom {
+  background-color: #4A90E2; /* Deep blue border for a premium look */
+}
+
+/* Premium, cohesive custom scrollbar styling */
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #34495e; /* Close to deep-ocean-blue */
+  background: #1f2937; /* Dark slate background for a sleek look */
   border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #4ECDC4; /* soft-teal */
+  background: linear-gradient(135deg, #4b6cb7, #182848); /* Rich blue gradient for a premium feel */
   border-radius: 10px;
-  border: 2px solid #2C3E50; /* deep-ocean-blue */
+  border: 2px solid #2c3e50; /* Slightly lighter deep blue for contrast */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3aa8a0; /* darker soft-teal */
+  background: linear-gradient(135deg, #3a7bd5, #0d3b66); /* Darker gradient on hover for smooth interaction */
 }

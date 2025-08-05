@@ -30,25 +30,22 @@ function Profile() {
       <div className="w-full max-w-2xl">
         <div className="p-8 border shadow-2xl rounded-2xl bg-component-bg border-soft-teal/30 animate-fade-in">
           <div className="mb-8 text-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-text-primary">
-              Your Profile
+            <h1 className="text-2xl font-semibold text-center text-text-primary">
+              Update Profile Picture
             </h1>
-            <p className="mt-2 text-lg text-text-muted">
-              Manage your personal information
-            </p>
           </div>
 
           {/* Avatar Upload */}
           <div className="flex flex-col items-center gap-4 my-8">
             <div className="relative">
               <img
-                src={selectedImage || authUser.profilePic || "/avatar.png"}
+                src={selectedImage || authUser.profilePic || "/avatar.webp"}
                 alt="profile"
-                className="object-cover border-4 rounded-full shadow-lg w-36 h-36 border-soft-teal"
+                className="object-cover border-2 rounded-full shadow-lg size-36"
               />
               <label
                 htmlFor="avatar-upload"
-                className={`absolute bottom-0 right-0 bg-soft-teal text-deep-ocean-blue p-3 rounded-full cursor-pointer transition duration-300 hover:scale-110 shadow-md flex items-center justify-center
+                className={`rounded-full cursor-pointer transition duration-300 mt-3 px-3 py-1 bg-dark-background border shadow-md flex items-center justify-center
                   ${
                     isUpdatingProfile
                       ? "animate-pulse opacity-70 cursor-not-allowed"
@@ -59,7 +56,10 @@ function Profile() {
                 {isUpdatingProfile ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
-                  <Camera className="w-5 h-5" />
+                  <div className="flex justify-between gap-2">
+                    <Camera className="mt-0.5 size-5" />
+                    <h4>Update Profile</h4>
+                  </div>
                 )}
                 <input
                   type="file"
@@ -71,47 +71,51 @@ function Profile() {
                 />
               </label>
             </div>
-            <p className="text-sm text-text-muted">
-              {isUpdatingProfile
-                ? "Updating new avatar..."
-                : "Click the camera icon to update your profile picture"}
-            </p>
           </div>
 
           {/* Profile Info */}
-          <div className="space-y-6">
-            <div>
-              <label className="flex items-center mb-2 text-sm font-medium text-text-secondary">
-                <User className="w-4 h-4 mr-2 text-soft-teal" />
-                Full Name
-              </label>
-              <input
-                type="text"
-                className="w-full p-3 border rounded-lg cursor-not-allowed bg-input-bg border-border-color text-text-primary focus:outline-none focus:ring-2 focus:ring-soft-teal"
-                value={authUser?.fullName}
-                disabled
-              />
+          <div className="space-y-3">
+            <div className="flex flex-col mb-8 lg:mb-4 lg:flex-row lg:justify-between lg:gap-3">
+              {/* Full Name */}
+              <div className="w-full mb-2 lg:w-1/4 lg:mb-0 rounded-2xl bg-white/20">
+                <label className="flex items-center gap-2 px-4 py-2 text-sm font-bold border rounded-2xl">
+                  <User className="mt-0.5 size-4" />
+                  <p className="text-base font-normal">FullName</p>
+                </label>
+              </div>
+              {/* Input */}
+              <div className="w-full lg:w-3/4">
+                <input
+                  type="text"
+                  className="w-full p-2 pl-5 border cursor-not-allowed rounded-2xl"
+                  value={authUser?.fullName}
+                  disabled
+                />
+              </div>
             </div>
 
-            <div>
-              <label className="flex items-center mb-2 text-sm font-medium text-text-secondary">
-                <Mail className="w-4 h-4 mr-2 text-soft-teal" />
-                Email
-              </label>
-              <input
-                type="email"
-                className="w-full p-3 border rounded-lg cursor-not-allowed bg-input-bg border-border-color text-text-primary focus:outline-none focus:ring-2 focus:ring-soft-teal"
-                value={authUser?.email}
-                disabled
-              />
+            <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-3">
+              {/* Email */}
+              <div className="w-full mb-2 lg:w-1/4 lg:mb-0 rounded-2xl bg-white/20">
+                <label className="flex items-center gap-2 px-4 py-2 text-sm font-bold border rounded-2xl">
+                  <Mail className="mt-0.5 size-4" />
+                  <p className="text-base font-normal">Email</p>
+                </label>
+              </div>
+              {/* Input */}
+              <div className="w-full lg:w-3/4">
+                <input
+                  type="email"
+                  className="w-full p-2 pl-5 border cursor-not-allowed rounded-2xl"
+                  value={authUser?.email}
+                  disabled
+                />
+              </div>
             </div>
           </div>
 
           {/* Account Info */}
-          <div className="pt-6 mt-8 border-t border-border-color">
-            <h2 className="mb-4 text-xl font-semibold text-text-primary">
-              Account Information
-            </h2>
+          <div className="pt-6 mt-4">
             <div className="text-sm divide-y divide-border-color">
               <div className="flex justify-between py-3">
                 <span className="text-text-muted">Member Since</span>

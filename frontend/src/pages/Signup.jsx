@@ -43,15 +43,9 @@ function Signup() {
     <div className="flex items-center justify-center min-h-screen px-4 bg-gray-background text-text-primary">
       <div className="w-full max-w-md p-8 mt-10 border shadow-2xl bg-component-bg border-soft-teal/30 rounded-2xl animate-fade-in">
         <div className="flex flex-col items-center mb-6">
-          <div className="flex items-center justify-center mb-4 shadow-inner size-16 bg-soft-teal/20 rounded-xl">
-            <MessageSquare className="text-soft-teal size-8" />
-          </div>
           <h1 className="mb-2 text-3xl font-extrabold tracking-wide sm:text-4xl text-text-primary">
-            Create Account
+            Sign Up
           </h1>
-          <p className="text-sm text-center text-text-muted">
-            Get started with your free account
-          </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="relative">
@@ -68,7 +62,7 @@ function Signup() {
               id="fullname-input"
               type="text"
               placeholder="John Doe"
-              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
+              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg placeholder:text-gray-500 text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
               value={formData.fullName}
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
@@ -90,7 +84,7 @@ function Signup() {
               id="email-input"
               type="email"
               placeholder="your@email.com"
-              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
+              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg placeholder:text-gray-500 text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -112,7 +106,7 @@ function Signup() {
               id="password-input"
               type="password"
               placeholder="Enter your password"
-              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
+              className="w-full h-12 pl-10 pr-3 transition-all duration-200 border rounded-lg placeholder:text-gray-500 text-text-primary placeholder-text-muted bg-input-bg border-border-color focus:outline-none focus:ring-2 focus:ring-soft-teal"
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -123,8 +117,7 @@ function Signup() {
           <button
             type="submit"
             disabled={isSigningup}
-            // Explicitly setting bg, text, and hover for the button
-            className="w-full h-12 mt-4 font-semibold bg-soft-teal text-deep-ocean-blue rounded-lg hover:bg-soft-teal/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg transform hover:scale-[1.01] duration-200"
+            className="w-full h-12 custom mt-4 font-semibold bg-soft-teal text-deep-ocean-blue rounded-lg hover:bg-soft-teal/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg transform hover:scale-[1.01] duration-200"
           >
             {isSigningup ? (
               <div className="flex items-center gap-2">
@@ -138,8 +131,7 @@ function Signup() {
         </form>
         <div className="my-6 text-center">
           <p className="text-text-muted">
-            Already have an account?
-            {/* Explicitly setting text color for the link */}
+            Already have an account? &nbsp;
             <Link
               to="/login"
               className="font-medium transition-colors duration-200 text-muted-gold hover:underline hover:text-muted-gold/80"

@@ -49,9 +49,6 @@ function ChatContainer() {
       <ChatHeader />
       <div className="flex flex-col flex-1 p-4 overflow-y-auto custom-scrollbar">
         {messages.map((message) => {
-          // CORRECTED LOGIC:
-          // If message sender is YOUR authUser, it's 'chat-end' (your side)
-          // Otherwise, it's 'chat-start' (other person's side)
           const isSender = message.senderId === authUser._id;
           return (
             <div
@@ -63,7 +60,7 @@ function ChatContainer() {
               {!isSender && ( // Show avatar for other user's messages
                 <div className="flex-shrink-0">
                   <img
-                    src={selectedUser.profilePic || "/avatar.png"}
+                    src={selectedUser.profilePic || "/avatar.webp"}
                     alt="profile pic"
                     className="object-cover border-2 rounded-full size-10 border-soft-teal"
                   />
@@ -107,7 +104,7 @@ function ChatContainer() {
               {isSender && ( // Show avatar for your messages
                 <div className="flex-shrink-0">
                   <img
-                    src={authUser.profilePic || "/avatar.png"}
+                    src={authUser.profilePic || "/avatar.webp"}
                     alt="profile pic"
                     className="object-cover border-2 rounded-full size-10 border-muted-gold"
                   />

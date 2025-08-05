@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageSquare } from "lucide-react";
+import { MessageCircleMore, MessageSquare } from "lucide-react";
 
 function NoChatSelected() {
   return (
@@ -8,16 +8,16 @@ function NoChatSelected() {
         <div className="flex justify-center gap-4 mb-4">
           <div className="relative">
             <div className="flex items-center justify-center rounded-full shadow-lg size-20 bg-soft-teal/20 animate-bounce-slow">
-              <MessageSquare className="size-10 text-soft-teal" />
+              <MessageCircleMore className="size-16 text-soft-teal" />
             </div>
           </div>
         </div>
         <h2 className="text-3xl font-extrabold leading-tight tracking-wide sm:text-4xl text-text-primary">
-          Welcome to <span className="text-soft-teal">Chatty</span>
+          Welcome to <span className="text-soft-teal">Huddle</span>
         </h2>
         <p className="text-base text-text-muted sm:text-lg">
-          Select a conversation from the sidebar to start chatting or explore
-          other features.
+          Seamless, real-time chats for meaningful connections, inspiring
+          conversations, and lasting friendships worldwide.
         </p>
       </div>
     </div>
