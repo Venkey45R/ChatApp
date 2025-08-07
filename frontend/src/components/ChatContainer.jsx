@@ -5,6 +5,7 @@ import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeleton/MessageSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
+import { MessageCircleQuestionMark } from "lucide-react";
 
 function ChatContainer() {
   const {
@@ -47,74 +48,87 @@ function ChatContainer() {
   return (
     <div className="flex flex-col flex-1 rounded-r-lg shadow-inner bg-component-bg">
       <ChatHeader />
-      <div className="flex flex-col flex-1 p-4 overflow-y-auto custom-scrollbar">
-        {messages.map((message) => {
-          const isSender = message.senderId === authUser._id;
-          return (
-            <div
-              key={message._id}
-              className={`flex items-start gap-3 my-2 ${
-                isSender ? "justify-end" : "justify-start"
-              } animate-fade-in`}
-            >
-              {!isSender && ( // Show avatar for other user's messages
-                <div className="flex-shrink-0">
-                  <img
-                    src={selectedUser.profilePic || "/avatar.webp"}
-                    alt="profile pic"
-                    className="object-cover border-2 rounded-full size-10 border-soft-teal"
-                  />
-                </div>
-              )}
-
+      {messages.length === 0 ? (
+        <div className="flex flex-col items-center justify-center flex-1 px-4 text-center">
+          <MessageCircleQuestionMark className="w-20 h-20 mb-4 text-muted-gold animate-pulse" />
+          <h2 className="mb-2 text-2xl font-semibold text-text-primary">
+            No messages yet!
+          </h2>
+          <p className="max-w-md text-sm text-text-muted">
+            Looks like you haven’t started a conversation. Say hello and start
+            the chat now. 🌟
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col flex-1 p-4 overflow-y-auto custom-scrollbar">
+          {messages.map((message) => {
+            const isSender = message.senderId === authUser._id;
+            return (
               <div
-                className={`flex flex-col ${
-                  isSender ? "items-end" : "items-start"
-                } max-w-[75%]`}
+                key={message._id}
+                className={`flex items-start gap-3 my-2 ${
+                  isSender ? "justify-end" : "justify-start"
+                } animate-fade-in`}
               >
-                <div className="flex items-center gap-1 mb-1 text-xs text-text-muted">
-                  {!isSender && selectedUser?.fullName && (
-                    <span className="mr-1 text-xs font-semibold text-soft-teal">
-                      {selectedUser.fullName.split(" ")[0]}
-                    </span>
-                  )}
-                  <time className="opacity-70">
-                    {formatMessageTime(message.createdAt)}
-                  </time>
-                </div>
-                <div
-                  className={`p-3 rounded-2xl shadow-md text-sm break-words 
-                    ${
-                      isSender
-                        ? "bg-soft-teal text-deep-ocean-blue rounded-br-none"
-                        : "bg-card-bg text-text-primary rounded-bl-none"
-                    }`}
-                >
-                  {message.image && (
+                {!isSender && (
+                  <div className="flex-shrink-0">
                     <img
-                      src={message.image}
-                      alt="attachment"
-                      className="sm:max-w-[200px] max-w-[150px] rounded-lg mb-2 object-cover border border-border-color"
+                      src={selectedUser.profilePic || "/avatar.webp"}
+                      alt="profile pic"
+                      className="object-cover border-2 rounded-full size-10 border-soft-teal"
                     />
-                  )}
-                  {message.text && <p>{message.text}</p>}
-                </div>
-              </div>
+                  </div>
+                )}
 
-              {isSender && ( // Show avatar for your messages
-                <div className="flex-shrink-0">
-                  <img
-                    src={authUser.profilePic || "/avatar.webp"}
-                    alt="profile pic"
-                    className="object-cover border-2 rounded-full size-10 border-muted-gold"
-                  />
+                <div
+                  className={`flex flex-col ${
+                    isSender ? "items-end" : "items-start"
+                  } max-w-[75%]`}
+                >
+                  <div className="flex items-center gap-1 mb-1 text-xs text-text-muted">
+                    {!isSender && selectedUser?.fullName && (
+                      <span className="mr-1 text-xs font-semibold text-soft-teal">
+                        {selectedUser.fullName.split(" ")[0]}
+                      </span>
+                    )}
+                    <time className="opacity-70">
+                      {formatMessageTime(message.createdAt)}
+                    </time>
+                  </div>
+                  <div
+                    className={`p-2 rounded-2xl shadow-md text-sm break-words 
+                      ${
+                        isSender
+                          ? "bg-soft-teal text-deep-ocean-blue rounded-br-none"
+                          : "bg-card-bg text-text-primary rounded-bl-none"
+                      }`}
+                  >
+                    {message.image && (
+                      <img
+                        src={message.image}
+                        alt="attachment"
+                        className="sm:max-w-[200px] max-w-[150px] rounded-lg mb-2 object-cover border border-border-color"
+                      />
+                    )}
+                    {message.text && <p>{message.text}</p>}
+                  </div>
                 </div>
-              )}
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
-      </div>
+
+                {isSender && (
+                  <div className="flex-shrink-0">
+                    <img
+                      src={authUser.profilePic || "/avatar.webp"}
+                      alt="profile pic"
+                      className="object-cover border-2 rounded-full size-10 border-muted-gold"
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          <div ref={messagesEndRef} />
+        </div>
+      )}
       <MessageInput />
     </div>
   );
